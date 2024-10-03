@@ -6,7 +6,7 @@ export default function Dashboard() {
     return (
       <div id="wd-dashboard">
         <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-        <h2 id="wd-dashboard-published">&nbsp;&nbsp;Published Courses (8)</h2> <hr />
+        <h2 id="wd-dashboard-published">&nbsp;&nbsp;Published Courses (12)</h2> <hr />
         <div id="wd-dashboard-courses" className="row">
           <div className="row row-cols-1 row-cols-md-5 g-4">
             <div className="wd-dashboard-course col" style={{width:"270px"}} >
@@ -19,7 +19,7 @@ export default function Dashboard() {
                   </a>
                   <p className="wd-dashboard-course-title card-text">CS5610.52323.202450</p>
                   <p className="wd-dashboard-course-subtitle card-text" title="202450_2 Summer Full 2024 Semester Full Term Grade">
-                      202450_2 Summer Full 2024 Semester F...
+                      202410_1 Fall 2024 Semester Full Term
                   </p>
                   <p>
                     <FaRegEdit className="fs-6" />
@@ -37,7 +37,7 @@ export default function Dashboard() {
                   </a>
                   <p className="wd-dashboard-course-title card-text">CS5610.52323.202450</p>
                   <p className="wd-dashboard-course-subtitle card-text" title="202450_2 Summer Full 2024 Semester Full Term Grade">
-                      202450_2 Summer Full 2024 Semester F...
+                  202410_1 Fall 2024 Semester Full Term
                   </p>
                   <p>
                     <FaRegEdit className="fs-6" />
@@ -55,7 +55,7 @@ export default function Dashboard() {
                   </a>
                   <p className="wd-dashboard-course-title card-text">CS5610.52323.202450</p>
                   <p className="wd-dashboard-course-subtitle card-text" title="202450_2 Summer Full 2024 Semester Full Term Grade">
-                      202450_2 Summer Full 2024 Semester F...
+                  202410_1 Fall 2024 Semester Full Term
                   </p>
                   <p>
                     <FaRegEdit className="fs-6" />
@@ -73,7 +73,7 @@ export default function Dashboard() {
                   </a>
                   <p className="wd-dashboard-course-title card-text">CS5610.52323.202450</p>
                   <p className="wd-dashboard-course-subtitle card-text" title="202450_2 Summer Full 2024 Semester Full Term Grade">
-                      202450_2 Summer Full 2024 Semester F...
+                  202410_1 Fall 2024 Semester Full Term
                   </p>
                   <p>
                     <FaRegEdit className="fs-6" />
@@ -91,7 +91,7 @@ export default function Dashboard() {
                   </a>
                   <p className="wd-dashboard-course-title card-text">CS5610.52323.202450</p>
                   <p className="wd-dashboard-course-subtitle card-text" title="202450_2 Summer Full 2024 Semester Full Term Grade">
-                      202450_2 Summer Full 2024 Semester F...
+                  202410_1 Fall 2024 Semester Full Term
                   </p>
                   <p>
                     <FaRegEdit className="fs-6" />
@@ -109,7 +109,7 @@ export default function Dashboard() {
                   </a>
                   <p className="wd-dashboard-course-title card-text">CS5610.52323.202450</p>
                   <p className="wd-dashboard-course-subtitle card-text" title="202450_2 Summer Full 2024 Semester Full Term Grade">
-                      202450_2 Summer Full 2024 Semester F...
+                      202410_1 Fall 2024 Semester Full Term
                   </p>
                   <p>
                     <FaRegEdit className="fs-6" />
@@ -127,7 +127,7 @@ export default function Dashboard() {
                   </a>
                   <p className="wd-dashboard-course-title card-text">CS5610.52323.202450</p>
                   <p className="wd-dashboard-course-subtitle card-text" title="202450_2 Summer Full 2024 Semester Full Term Grade">
-                      202450_2 Summer Full 2024 Semester F...
+                  202410_1 Fall 2024 Semester Full Term
                   </p>
                   <p>
                     <FaRegEdit className="fs-6" />
@@ -145,7 +145,7 @@ export default function Dashboard() {
                   </a>
                   <p className="wd-dashboard-course-title card-text">CS5610.52323.202450</p>
                   <p className="wd-dashboard-course-subtitle card-text" title="202450_2 Summer Full 2024 Semester Full Term Grade">
-                      202450_2 Summer Full 2024 Semester F...
+                  202410_1 Fall 2024 Semester Full Term
                   </p>
                   <p>
                     <FaRegEdit className="fs-6" />

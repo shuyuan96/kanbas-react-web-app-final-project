@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 export default function Profile() {
   return (
     <div id="wd-profile-screen">
-      <h1>Profile</h1>
+      <h2>Profile</h2>
       <input id="wd-username" value="alice" placeholder="username" className="form-control mb-2"/>
       <input id="wd-password" value="123" placeholder="password"
              type="password" className="form-control mb-2"/>

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 export default function Signup() {
   return (
     <div id="wd-signup-screen">
-      <h1>Sign up</h1>
+      <h2>Signup</h2>
       <input id="wd-username"
             placeholder="username"
             className="form-control mb-2"/>
