@@ -1,5 +1,4 @@
 import { Link, useLocation } from "react-router-dom";
-import "./styles.css"
 export default function AccountNavigation() {
   const location = useLocation();
  
