@@ -1,162 +1,326 @@
-export default function AssignmentsEditor() {
+import { RxCross2 } from "react-icons/rx";
+import { MdOutlineCalendarMonth } from "react-icons/md";
+import AssignmentsSaveButtons from "./AssignmentsSaveButtons";
+import { useParams, useNavigate } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { addAssignment, updateAssignment } from "./reducer";
+
+export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const assignment = assignments.find((a: any) => a._id === aid);
+
+  const [title, setTitle] = useState(assignment ? assignment.title : "New Assignment");
+  const [description, setDescription] = useState(assignment ? assignment.description : "New Assignment Description");
+  const [points, setPoints] = useState(assignment ? assignment.points : 100);
+  const [dueDate, setDueDate] = useState(assignment ? assignment.due : "");
+  const [startDate, setStartDate] = useState(assignment ? assignment.date : "");
+
+  const handleSave = () => {
+    if (assignment) {
+      dispatch(
+        updateAssignment({
+          _id: aid,
+          title: title,
+          course: cid,
+          date: startDate,
+          due: dueDate,
+          points: points,
+          description: description,
+        })
+      );
+    } else {
+      const newAssignmentId = new Date().getTime().toString();
+      dispatch(
+        addAssignment({
+          _id: newAssignmentId,
+          title: title,
+          course: cid,
+          date: startDate,
+          due: dueDate,
+          points: points,
+          description: description,
+        })
+      );
+      navigate(`/Kanbas/Courses/${cid}/Assignments/${newAssignmentId}`);
+    }
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
+
   return (
-    <div className="container mt-4">
-      <form>
-        <div className="mb-3 row">
-          <label htmlFor="assignmentName" className="col-form-label">Assignment Name</label>
+    <div id="wd-assignments-editor" className="mx-4">
+      <div>
+        <label className="fs-6" htmlFor="wd-name">
+          Assignment Name
+        </label>
+        <input
+          type="name"
+          className="form-control"
+          id="wd-name"
+          placeholder= {title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <br />
+        <textarea
+          className="form-control "
+          id="wd-description"
+          placeholder={description}
+          rows={15}
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
+        <br />
+        <div className="form-group row">
+          <label
+            htmlFor="wd-points"
+            className="col-sm-2 col-form-label text-end"
+          >
+            Points
+          </label>
           <div className="col-sm-10">
             <input
-              type="text"
-              id="assignmentName"
-              placeholder="A1 - ENV + HTML"
+              type="number"
               className="form-control"
+              id="wd-points"
+              placeholder={String(points)}
+              onChange={(e) => setPoints(Number(e.target.value))}
             />
           </div>
         </div>
-        <div className="mb-3 row">
+        <br />
+        <div className="form-group row">
+          <label
+            htmlFor="wd-group"
+            className="col-sm-2 col-form-label text-end"
+          >
+            Assignment Group
+          </label>
           <div className="col-sm-10">
-            <div className="p-3 border" id="assignmentDetails">
-              <p>The assignment is <span style={{ color: 'red' }}>available online</span></p>
-              <p>Submit a link to the landing page of your Web application running on Netlify.</p>
-              <p>The landing page should include the following:</p>
-              <ul>
-                <li>Your full name and section</li>
-                <li>Links to each of the lab assignments</li>
-                <li>Link to the Kanbas application</li>
-                <li>Links to all relevant source code repositories</li>
-              </ul>
-              <p>The Kanbas application should include a link to navigate back to the landing page.</p>
-            </div>
+            <select className="form-select" id="wd-group">
+              <option selected>ASSIGNMENTS</option>
+            </select>
           </div>
         </div>
-        <div className="row mb-3">
-          <div className="col-md-10">
-            <div className="mb-3 row">
-              <label htmlFor="points" className="col-sm-4 col-form-label text-end">Points</label>
-              <div className="col-sm-8">
-                <input
-                  type="number"
-                  id="points"
-                  placeholder="100"
-                  className="form-control"
-                />
-              </div>
-            </div>
-            <div className="mb-3 row">
-              <label htmlFor="assignmentGroup" className="col-sm-4 col-form-label text-end">Assignment Group</label>
-              <div className="col-sm-8">
-                <select id="assignmentGroup" className="form-select">
-                  <option selected>ASSIGNMENTS</option>
-                  <option value="1">One</option> 
-                  <option value="2">Two</option> 
-                  <option value="3">Three</option> 
-                </select>
-              </div>
-            </div>
-            <div className="mb-3 row">
-              <label htmlFor="displayGrade" className="col-sm-4 col-form-label text-end">Display Grade as</label>
-              <div className="col-sm-8">
-                <select id="displayGrade" className="form-select">
-                  <option selected>Percentage</option>
-                  <option value="1">One</option> 
-                  <option value="2">Two</option> 
-                </select>
-              </div>
-            </div>
-            <div className="mb-3 row">
-              <label htmlFor="submissionType" className="col-sm-4 col-form-label text-end">Submission Type</label>
-              <div className="col-sm-8">
-                <div className="p-3 border">
-                <select id="submissionType" className="form-select mb-3">
-                  <option selected>Online</option>
-                </select>
-                <div>
-                  <label htmlFor="entryOption" className="col-sm-4 col-form-label mb-3"><strong>Online Entry Option</strong></label>
-                </div>
-                <div className="form-check mb-3">
-                  <input className="form-check-input" type="checkbox" id="textEntry" />
-                  <label className="form-check-label" htmlFor="textEntry">
+        <br />
+        <div className="form-group row">
+          <label
+            htmlFor="wd-display-grade-as"
+            className="col-sm-2 col-form-label text-end"
+          >
+            Display Grade as
+          </label>
+          <div className="col-sm-10">
+            <select className="form-select" id="wd-display-grade-as">
+              <option selected>Percentage</option>
+            </select>
+          </div>
+        </div>
+        <br />
+        <div className="form-group row align-items-start">
+          <label
+            htmlFor="wd-submission-type"
+            className="col-sm-2 col-form-label text-end d-none d-md-block"
+          >
+            Submission Type
+          </label>
+          <div className="col-sm-10">
+            <div className="border border-secondary p-2">
+              <select className="form-select" id="wd-submission-type">
+                <option selected>Online</option>
+              </select>
+              <br />
+              <div>
+                <label>
+                  <strong>Online Entry Options</strong>
+                </label>
+                <br />
+                <br />
+                <div className="form-check d-flex justify-content-start">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="wd-text-entry"
+                  />
+                  <label
+                    className="form-check-label ms-3"
+                    htmlFor="wd-text-entry"
+                  >
                     Text Entry
                   </label>
+                  <br />
                 </div>
-                <div className="form-check mb-3">
-                  <input className="form-check-input" type="checkbox" id="websiteUrl" checked />
-                  <label className="form-check-label" htmlFor="websiteUrl">
+                <br />
+                <div className="form-check d-flex justify-content-start">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="wd-website-url"
+                  />
+                  <label
+                    className="form-check-label ms-3"
+                    htmlFor="wd-website-url"
+                  >
                     Website URL
                   </label>
                 </div>
-                <div className="form-check mb-3">
-                  <input className="form-check-input" type="checkbox" id="mediaRecordings" />
-                  <label className="form-check-label" htmlFor="mediaRecordings">
+                <br />
+                <div className="form-check d-flex justify-content-start">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="wd-media-recordings"
+                  />
+                  <label
+                    className="form-check-label ms-3"
+                    htmlFor="wd-media-recordings"
+                  >
                     Media Recordings
                   </label>
                 </div>
-                <div className="form-check mb-3">
-                  <input className="form-check-input" type="checkbox" id="studentAnnotation" />
-                  <label className="form-check-label" htmlFor="studentAnnotation">
+                <br />
+                <div className="form-check d-flex justify-content-start">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="wd-student-annotation"
+                  />
+                  <label
+                    className="form-check-label ms-3"
+                    htmlFor="wd-student-annotation"
+                  >
                     Student Annotation
                   </label>
                 </div>
-                <div className="form-check mb-3">
-                  <input className="form-check-input" type="checkbox" id="fileUploads" />
-                  <label className="form-check-label" htmlFor="fileUploads">
+                <br />
+                <div className="form-check d-flex justify-content-start">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="wd-file-upload"
+                  />
+                  <label
+                    className="form-check-label ms-3"
+                    htmlFor="wd-file-upload"
+                  >
                     File Uploads
                   </label>
                 </div>
-                </div>
+                <br />
               </div>
             </div>
-            <div className="mb-3 row">
-              <label htmlFor="assignTo" className="col-sm-4 col-form-label text-end">Assign</label>
-              <div className="col-sm-8">
-                <div className="p-2 border">
-                  <label htmlFor="assignToPeople" className="col-sm-4 col-form-label text-start">Assign to</label>
+          </div>
+        </div>
+        <br />
+        <div className="form-group row align-items-start">
+          <label
+            htmlFor="wd-assign-to"
+            className="col-sm-2 col-form-label text-end d-none d-md-block"
+          >
+            Assign
+          </label>
+          <div className="col-sm-10">
+            <div className="border border-secondary p-2">
+              <div className="justify-content-start">
+                <label htmlFor="wd-assign-to">
+                  <strong>Assign to</strong>
+                </label>
+              </div>
+              <div className="border border-secondary p-2">
+                <div
+                  className="d-flex justify-content-between align-items-center"
+                  style={{
+                    backgroundColor: "#F0F0F0",
+                    width: "130px",
+                    height: "40px",
+                    borderRadius: "5px",
+                  }}
+                >
+                  <p className="m-3">Everyone</p>
+                  <div className="m-2">
+                    <RxCross2 />
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div className="d-flex flex-column">
+                <label htmlFor="wd-due-date">
+                  <strong>Due</strong>
+                </label>
+                <div className="d-flex">
                   <input
                     type="text"
-                    id="assignTo"
-                    placeholder="Everyone"
-                    className="form-control mb-3"
+                    id="wd-due-date"
+                    className="wd-assignment-date form-control date-input"
+                    onChange={(e) => setDueDate(e.target.value)}
                   />
-                  <label htmlFor="dueDate" className="form-label">Due</label>
-                  <input
-                    type="date"
-                    id="dueDate"
-                    value="2024-05-13"
-                    className="form-control mb-3"
-                  />
-                  <div className="row">
-                    <div className="col">
-                      <label htmlFor="availableFrom" className="form-label">Available from</label>
-                      <input
-                        type="date"
-                        id="availableFrom"
-                        value="2024-05-06"
-                        className="form-control mb-3"
-                      />
+                  <div className="input-group-append">
+                    <span
+                      className="input-group-text d-flex justify-content-center"
+                      style={{ height: "40px", width: "60px" }}
+                    >
+                      <MdOutlineCalendarMonth />
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div className="d-flex justify-content-between">
+                <div className="d-flex flex-column me-3 w-50">
+                  <label htmlFor="wd-available-from">
+                    <strong>Available from</strong>
+                  </label>
+                  <div className="d-flex">
+                    <input
+                      type="text"
+                      id="wd-available-from"
+                      className="form-control date-input wd-assignment-date"
+                      onChange={(e) => setStartDate(e.target.value)}
+                    />
+                    <div className="input-group-append">
+                      <span
+                        className="input-group-text d-flex justify-content-center align-items-center"
+                        style={{ height: "40px", width: "60px" }}
+                      >
+                        <MdOutlineCalendarMonth />
+                      </span>
                     </div>
-                    <div className="col">
-                      <label htmlFor="until" className="form-label">Until</label>
-                      <input
-                        type="date"
-                        id="until"
-                        placeholder=""
-                        className="form-control mb-3"
-                      />
+                  </div>
+                </div>
+                <div className="d-flex flex-column w-50">
+                  <label htmlFor="wd-available-until">
+                    <strong>Until</strong>
+                  </label>
+                  <div className="d-flex">
+                    <input
+                      type="text"
+                      id="wd-available-until"
+                      className="form-control date-input wd-assignment-date"
+                      onChange={(e) => setDueDate(e.target.value)}
+                    />
+                    <div className="input-group-append">
+                      <span
+                        className="input-group-text d-flex justify-content-center align-items-center"
+                        style={{ height: "40px", width: "60px" }}
+                      >
+                        <MdOutlineCalendarMonth />
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
+              <br />
             </div>
-            <hr />
-            <div className="mb-3 row">
-            <div className="d-flex justify-content-end">
-              <button type="button" className="btn btn-secondary me-1">Cancel</button>
-              <button type="submit" className="btn btn-m btn-danger">Save</button>
-              </div>
-            </div>
+            <br />
+            <br />
+            <br />
           </div>
+          <hr />
+          <AssignmentsSaveButtons onSave={handleSave} />
         </div>
-      </form>
+      </div>
     </div>
   );
-};
+}
