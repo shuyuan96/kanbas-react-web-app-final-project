@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteAssignment } from "./reducer";
 import AssignmentDeleteDialogue from "./AssignmentDeleteDialogue";
+import * as assignmentsClient from "./client";
 
 export default function AssignmentControlButtons({ assignmentId }: { assignmentId: string }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,8 +17,9 @@ export default function AssignmentControlButtons({ assignmentId }: { assignmentI
     setIsModalOpen(true);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (deleteTarget) {
+      assignmentsClient.deleteAssignment(deleteTarget);
       dispatch(deleteAssignment(deleteTarget));
       setDeleteTarget(null); 
     }

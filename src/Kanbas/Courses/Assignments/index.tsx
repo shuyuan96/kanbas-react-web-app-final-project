@@ -4,14 +4,27 @@ import AssignmentsTabButtons from "./AssignmentsTabButtons";
 import { IoMdArrowDropdown } from "react-icons/io";
 import TaskControlButtons from "./TaskControlButtons";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AssignmentControlButtons from "./AssignmentControlButtons";
+import { setAssignments } from "./reducer";
+import { useState, useEffect } from "react";
+import * as coursesClient from "../client";
 
 export default function Assignments() {
   const { cid } = useParams();
   const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser.role === "FACULTY";
+  const dispatch = useDispatch();
+
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
 
   return (
     <div className="d-flex" id="wd-assignments">
@@ -30,7 +43,6 @@ export default function Assignments() {
                 ASSIGNMENTS {isFaculty && (<AssignmentsTabButtons />)}
               </div>
               {assignments
-                .filter((assignment: any) => assignment.course === cid)
                 .map((assignment: any) => (
                   <li className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex align-items-center justify-content-between">
                     <div className="d-flex align-items-center">

@@ -5,6 +5,8 @@ import { useParams, useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { addAssignment, updateAssignment } from "./reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
@@ -20,33 +22,35 @@ export default function AssignmentEditor() {
   const [dueDate, setDueDate] = useState(assignment ? assignment.due : "");
   const [startDate, setStartDate] = useState(assignment ? assignment.date : "");
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (assignment) {
-      dispatch(
-        updateAssignment({
-          _id: aid,
-          title: title,
-          course: cid,
-          date: startDate,
-          due: dueDate,
-          points: points,
-          description: description,
-        })
-      );
+      const updatedAssignment = {
+        _id: aid,
+        title: title,
+        course: cid,
+        date: startDate,
+        due: dueDate,
+        points: points,
+        description: description,
+      };
+      await assignmentsClient.updateAssignment(updatedAssignment);
+      dispatch(updateAssignment(updatedAssignment));
     } else {
-      const newAssignmentId = new Date().getTime().toString();
+      if (!cid) return;
+      const newAssignment = {
+        title: title,
+        course: cid,
+        date: startDate,
+        due: dueDate,
+        points: points,
+        description: description,
+        availableUntil: dueDate,
+      };
+      const assignment = await coursesClient.createAssignmentsForCourse(cid, newAssignment);
       dispatch(
-        addAssignment({
-          _id: newAssignmentId,
-          title: title,
-          course: cid,
-          date: startDate,
-          due: dueDate,
-          points: points,
-          description: description,
-        })
+        addAssignment(assignment)
       );
-      navigate(`/Kanbas/Courses/${cid}/Assignments/${newAssignmentId}`);
+      navigate(`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`);
     }
     navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
@@ -61,14 +65,14 @@ export default function AssignmentEditor() {
           type="name"
           className="form-control"
           id="wd-name"
-          placeholder= {title}
+          value= {title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <br />
         <textarea
           className="form-control "
           id="wd-description"
-          placeholder={description}
+          value={description}
           rows={15}
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
@@ -85,7 +89,7 @@ export default function AssignmentEditor() {
               type="number"
               className="form-control"
               id="wd-points"
-              placeholder={String(points)}
+              value={String(points)}
               onChange={(e) => setPoints(Number(e.target.value))}
             />
           </div>
