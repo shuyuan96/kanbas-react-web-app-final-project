@@ -1,0 +1,145 @@
+[{
+    "_id": {
+      "$oid": "66b2db8617f087daefe5170b"
+    },
+    "title": "Q1 - Introduction to Rocket Propulsion",
+    "course": "RS4550",
+    "quizGroup": "Quizzes",
+    "shuffleAnswers": true,
+    "timeLimit": 30,
+    "multipleAttempts": 0,
+    "showCorrectAnswers": true,
+    "published": true,
+    "available": {
+      "$date": "2024-05-19T00:00:00.000Z"
+    },
+    "due": {
+      "$date": "2024-05-23T00:00:00.000Z"
+    },
+    "untilDate": {
+      "$date": "2024-05-23T00:00:00.000Z"
+    },
+    "points": 30,
+    "questions": [
+      {
+        "title": "apple",
+        "questionType": "True False",
+        "question": "Is apple a fruit?",
+        "answers": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": "True",
+        "points": 30,
+        "_id": {
+          "$oid": "66b3fe99aa82568fe65245b8"
+        }
+      }
+    ],
+    "accessCode": "",
+    "lockQuestionsAfterAnswering": false,
+    "oneQuestionAtTime": true,
+    "open": false,
+    "webcamRequried": false,
+    "assignmentGroup": "Quizzes",
+    "quizType": "Graded Quiz",
+    "webcamRequired": false
+  },
+  {
+    "_id": {
+      "$oid": "66b2db8617f087daefe5170c"
+    },
+    "title": "Q2 - Types of Rocket Engines",
+    "course": "RS4550",
+    "quizGroup": "Quizzes",
+    "published": true,
+    "available": "2024-05-19",
+    "due": "2024-05-23",
+    "untilDate": "2024-05-23",
+    "points": 0,
+    "questions": []
+  },
+  {
+    "_id": {
+      "$oid": "66b2db8617f087daefe5170d"
+    },
+    "title": "EXAM 1 SM2 24",
+    "course": "RS4550",
+    "quizGroup": "Quizzes",
+    "published": true,
+    "available": "2024-05-19",
+    "due": "2024-05-23",
+    "untilDate": "2024-05-23",
+    "points": 0,
+    "questions": []
+  },
+  {
+    "_id": {
+      "$oid": "66b2db8617f087daefe5170e"
+    },
+    "title": "Q3 - Combustion Processes in Rocket Engines",
+    "course": "RS4550",
+    "quizGroup": "Quizzes",
+    "published": true,
+    "available": "2024-05-19",
+    "due": "2024-05-23",
+    "untilDate": "2024-05-23",
+    "points": 0,
+    "questions": []
+  },
+  {
+    "_id": {
+      "$oid": "66b2db8617f087daefe5170f"
+    },
+    "title": "Q4 - Rocket Fuel and Combustion",
+    "course": "RS4550",
+    "quizGroup": "Quizzes",
+    "published": true,
+    "available": "2024-05-19",
+    "due": "2024-05-23",
+    "untilDate": "2024-05-23",
+    "points": 0,
+    "questions": []
+  },
+  {
+    "_id": {
+      "$oid": "66b2db8617f087daefe51710"
+    },
+    "title": "Q5 - Combustion Processes in Rocket Engines",
+    "course": "RS4550",
+    "quizGroup": "Quizzes",
+    "published": true,
+    "available": "2024-05-19",
+    "due": "2024-05-23",
+    "untilDate": "2024-05-23",
+    "points": 0,
+    "questions": []
+  },
+  {
+    "_id": {
+      "$oid": "66b2db8617f087daefe51711"
+    },
+    "title": "Q6 - Nozzle Design and Performance",
+    "course": "RS4550",
+    "quizGroup": "Quizzes",
+    "published": true,
+    "available": "2024-05-19",
+    "due": "2024-05-23",
+    "untilDate": "2024-05-23",
+    "points": 0,
+    "questions": []
+  },
+  {
+    "_id": {
+      "$oid": "66b2db8617f087daefe51712"
+    },
+    "title": "EXAM 2 SM2 24",
+    "course": "RS4550",
+    "quizGroup": "Quizzes",
+    "published": true,
+    "available": "2024-05-19",
+    "due": "2024-05-23",
+    "untilDate": "2024-05-23",
+    "points": 0,
+    "questions": []
+  }]

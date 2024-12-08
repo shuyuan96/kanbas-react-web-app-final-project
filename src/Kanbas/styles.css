@@ -106,3 +106,8 @@ body * {font-family: Arial, Helvetica, sans-serif; }
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1001;
 }
+
+.wd-quiz-link {
+  color: black;
+  text-decoration: none;
+}

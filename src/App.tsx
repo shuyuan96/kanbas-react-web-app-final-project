@@ -2,13 +2,16 @@ import React from 'react';
 import Labs from "./Labs";
 import Kanbas from "./Kanbas";
 import './App.css';
-import { HashRouter, Route, Routes,  Navigate} from "react-router-dom";
+import {HashRouter, Route, Routes, Navigate, BrowserRouter} from "react-router-dom";
 import store from "./Kanbas/store";
 import { Provider } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   return (
     <HashRouter>
+      <ToastContainer />
       <Provider store={store}>
       <div>
         <Routes>
