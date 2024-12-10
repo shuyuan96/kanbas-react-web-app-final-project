@@ -16,10 +16,20 @@ export const findQuizzesByCourse = async (courseId: string) => {
 };
 
 export const findQuizById = async (quizId: string) => {
-    const response = await axiosWithCredentials.get(`${QUIZZES_API}/${quizId}`);
-    return response.data;
-};
-
+    try {
+      console.log("Quiz ID:", quizId);
+      console.log("API Endpoint:", `${QUIZZES_API}/${quizId}`);
+      
+      const response = await axiosWithCredentials.get(`${QUIZZES_API}/${quizId}`);
+      
+      console.log("Response Data:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error in findQuizById:", error);
+      throw error;
+    }
+  };
+  
 export const createQuiz = async (courseId: string, quiz: any) => {
     const response = await axiosWithCredentials.post(`${COURSES_API}/${courseId}/quizzes`, quiz);
     return response.data;

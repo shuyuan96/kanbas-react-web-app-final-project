@@ -1,93 +1,69 @@
 import { BsGripVertical } from "react-icons/bs";
-import AssignmentControls from "./AssignmentsControls";
-import AssignmentsTabButtons from "./AssignmentsTabButtons";
-import { IoMdArrowDropdown } from "react-icons/io";
-import TaskControlButtons from "./TaskControlButtons";
-import { useParams } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { LuFileSignature } from "react-icons/lu";
+import AssignmentsControls from "./AssignmentsControls";
 import AssignmentControlButtons from "./AssignmentControlButtons";
-import { setAssignments } from "./reducer";
-import { useState, useEffect } from "react";
-import * as coursesClient from "../client";
+import { Link, useParams } from "react-router-dom";
+import { setAssignments, addAssignment, updateAssignment, deleteAssignment } from "./reducer";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import AssignmentEditButtons from "./AssignmentEditButtons";
+import * as client from "./client";
 
-export default function Assignments() {
-  const { cid } = useParams();
-  const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const isFaculty = currentUser.role === "FACULTY";
-  const dispatch = useDispatch();
+export default function Assignments({ courses }: { courses: any[]; }) {
+    const { cid } = useParams();
+    const course = courses.find((course) => course._id === cid);
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const dispatch = useDispatch();
 
-  const fetchAssignments = async () => {
-    const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
-    dispatch(setAssignments(assignments));
-  };
-  useEffect(() => {
-    fetchAssignments();
-  }, []);
+    const fetchAssignments = async () => {
+        const assignments = await client.findAssignmentsForCourse(cid as string);
+        dispatch(setAssignments(assignments));
+    };
+    useEffect(() => {
+        fetchAssignments();
+    }, [cid]);
+    const removeAssignment = async (assignmentId: string) => {
+        await client.deleteAssignment(assignmentId);
+        dispatch(deleteAssignment(assignmentId));
+    };    
 
+    return (
+        <div id="wd-assignments" className="vh-100">
+            <AssignmentsControls /><br /><br /><br /><br />
 
-  return (
-    <div className="d-flex" id="wd-assignments">
-      <div className="flex-fill">
-        <div className="me-4 ms-5">
-          <AssignmentControls />
-          <br />
-          <br />
-          <br />
-          <br />
-          <ul id="wd-assignment-list" className="list-group rounded-0">
-            <li className="wd-assignment-list list-group-item p-0 mb-5 fs-5 border-gray">
-              <div className="wd-assignments-title p-4 ps-2 bg-secondary">
-                {isFaculty && (<BsGripVertical className="me-2 fs-3" />)}
-                <IoMdArrowDropdown className="me-2 fs-3" />
-                ASSIGNMENTS {isFaculty && (<AssignmentsTabButtons />)}
-              </div>
-              {assignments
-                .map((assignment: any) => (
-                  <li className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex align-items-center justify-content-between">
-                    <div className="d-flex align-items-center">
-                      <a
-                        className="wd-assignment-link text-dark"
-                        href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-                        style={{ textDecoration: "none" }}
-                      >
-                        <TaskControlButtons />
-                      </a>
-                      <div>
-                        <h4 className="mb-0">
-                          <strong>
-                            <a
-                              className="wd-assignment-link text-dark"
-                              href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-                              style={{ textDecoration: "none" }}
-                            >
-                              {assignment.title}
-                            </a>
-                          </strong>
-                        </h4>
-                        <p id="wd-assignment-description" className="mb-0">
-                          <span className="text-danger">Multiple Modules</span>{" "}
-                          |
-                          <span className="text-muted">
-                            <strong> Not available until</strong>{" "}
-                            {assignment.date}{" "}
-                          </span>
-                          |
-                          <br />
-                          <span className="text-muted">
-                            <strong>Due</strong> {assignment.due}{" "}
-                          </span>
-                          |<span className="text-muted"> {assignment.points} pts</span>
-                        </p>
-                      </div>
+            <ul id="wd-assignment-list" className="list-group rounded-0">
+                <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
+                    <div className="wd-assignments-title p-3 ps-2 bg-secondary fw-bold">
+                        <BsGripVertical className="me-2 fs-3" />
+                        ASSIGNMENTS
+                        <AssignmentControlButtons />
                     </div>
-                    {isFaculty && (<AssignmentControlButtons assignmentId={assignment._id} />)}
-                  </li>
-                ))}
-            </li>
-          </ul>
+                    <ul className="list-group rounded-0">
+                        {assignments
+                            .filter((assignment: any) => assignment.course === course.number)
+                            .map((assignment: any) => (
+                                <li className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex">
+                                    <BsGripVertical className="me-2 fs-3 align-self-center" />  
+                                    <LuFileSignature className="ms-2 me-4 fs-3 align-self-center text-success" />
+                                    <div className="align-self-center">
+                                        <Link to={`${assignment._id}`} className="wd-assignment-link text-dark no-underline fw-bold">
+                                            {assignment.title}
+                                        </Link>
+                                        <h6><span className="text-danger">Multiple Modules</span> | Not available until {assignment.available} |<br/>
+                                        Due {assignment.due} | {assignment.points}</h6>
+                                    </div>
+                                    <div className="align-self-center flex-fill">
+                                        <AssignmentEditButtons 
+                                            assignmentId={assignment._id}
+                                            deleteAssignment={(assignmentId) => {removeAssignment(assignmentId)}}/>
+                                    </div>
+                                </li>
+                        ))}
+                    </ul>
+                </li>
+            </ul>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
+
+export {};

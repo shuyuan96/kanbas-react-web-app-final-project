@@ -19,18 +19,23 @@ export default function Preview() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      const fetchQuiz = async () => {
-        try {
-          const fetchedQuiz = await client.findQuizById(qid as string);
-          setQuiz(fetchedQuiz);
-          setQuestions(fetchedQuiz.questions || []);
-        } catch (error) {
-          console.error("Error fetching quiz:", error);
+    const fetchQuiz = async () => {
+        if (qid === "new") {
+            console.log("Creating a new quiz, skipping fetch.");
+            return;
         }
-      };
 
-      fetchQuiz();
-    }, [qid]);
+        try {
+            const fetchedQuiz = await client.findQuizById(qid as string);
+            setQuiz(fetchedQuiz);
+            setQuestions(fetchedQuiz.questions || []);
+        } catch (error) {
+            console.error("Error fetching quiz:", error);
+        }
+    };
+
+    fetchQuiz();
+}, [qid]);
     
   console.log(quiz);
   console.log(questions);

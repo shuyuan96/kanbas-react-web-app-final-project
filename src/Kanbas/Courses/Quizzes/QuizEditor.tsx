@@ -12,7 +12,7 @@ export default function QuizEditor() {
     const dispatch = useDispatch();
     const location = useLocation();
     const initialQuiz = location.state?.quiz;
-    const { quizzes } = useSelector((state: any) => state.QuizReducer);
+    const { quizzes } = useSelector((state: any) => state.QuizReducer || { quizzes: [] });
     const [quiz, setQuiz] = useState(
         quizzes.find((quiz: any) => quiz._id === qid) || initialQuiz
     );
@@ -24,8 +24,6 @@ export default function QuizEditor() {
         const updatedQuizData = { ...quiz, published: publish };
         if (qid === "new") {
             const createdQuiz = await client.createQuiz(cid as string, updatedQuizData);
-            console.log("createdQuiz")
-            console.log(createdQuiz)
             dispatch(addQuizzes(createdQuiz));
             if (publish) {
                 quiz.published = publish;

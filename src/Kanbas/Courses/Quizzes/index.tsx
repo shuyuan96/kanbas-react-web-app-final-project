@@ -15,7 +15,7 @@ export default function Quizzes({ courses }: { courses: any[]; }) {
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const [userRole, setUserRole] = useState<string>();
-   const { quizzes } = useSelector((state: any) => state.QuizReducer);
+   const { quizzes } = useSelector((state: any) => state.QuizReducer || { quizzes: [] });
 
    const fetchQuizzes = async () => {
       const quizzes = await client.findQuizzesByCourse(cid as string);

@@ -10,7 +10,7 @@ export default function QuizDetails() {
     const navigate = useNavigate();
     const location = useLocation();
     const { title, role } = location.state || {}; 
-    const quizzes = useSelector((state: any) => state.QuizReducer.quizzes);
+    const quizzes = useSelector((state: any) => state.QuizReducer?.quizzes || []);
     const isCreatingNew = qid === 'new';
 
     const formatDateForInput = (dateInput: any) => {
@@ -45,15 +45,21 @@ export default function QuizDetails() {
     console.log(quizDetails);
 
     useEffect(() => {
-        if (!isCreatingNew) {
-            const foundQuiz = quizzes.find((quiz: any) => quiz._id === qid);
-            if (foundQuiz) {
-                setQuizDetails(foundQuiz);
-            } else {
-                setQuizDetails(defaultQuizDetails)
-            }
+        if (qid === 'new') {
+            // If creating a new quiz, skip fetching and use default details
+            setQuizDetails(defaultQuizDetails);
+            return;
         }
-    }, [qid, quizzes, isCreatingNew]);
+    
+        // If qid is not 'new', proceed to find the quiz in the quizzes array
+        const foundQuiz = quizzes.find((quiz: any) => quiz._id === qid);
+        if (foundQuiz) {
+            setQuizDetails(foundQuiz);
+        } else {
+            setQuizDetails(defaultQuizDetails);
+        }
+    }, [qid, quizzes]);
+    
     
     const navigateToQuizEditor = () => {
         navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/QuizEditor`, { state: { quiz: quizDetails } });
